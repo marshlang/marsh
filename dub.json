@@ -1,0 +1,9 @@
+{
+	"description": "The Marsh programming language",
+	"license": "Apache-2.0",
+	"authors": [
+		"Funcieq"
+	],
+	"copyright": "Copyright © 2026, Funci",
+	"name": "marsh"
+}
