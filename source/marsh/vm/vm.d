@@ -10,6 +10,7 @@ struct VM
     private Value[] stack;
     private size_t ip; //instruction pointer!!!
     private BuiltinRegistry builtins;
+    private Value[] locals;
 
     this(Chunk chunk, BuiltinRegistry builtins)
     {
@@ -118,6 +119,29 @@ struct VM
 
             case OpCode.CALL:
                 callBuiltin(inst.operand);
+                break;
+
+            case OpCode.STORE_LOCAL:
+                size_t slot = inst.operand;
+
+                if (slot >= locals.length)
+                {
+                    locals.length = slot + 1;
+                }
+
+                locals[slot] = pop();
+
+                break;
+
+            case OpCode.LOAD_LOCAL:
+                size_t slot = inst.operand;
+
+                if (slot >= locals.length)
+                {
+                    throw new Exception("LOAD_LOCAL: invalid local variable index!");
+                }
+
+                push(Value(locals[slot]));
                 break;
 
             case OpCode.HALT:

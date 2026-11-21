@@ -3,6 +3,8 @@ module marsh.vm.opcode;
 enum OpCode : ubyte
 {
     LOAD_CONST,
+    LOAD_LOCAL,
+    STORE_LOCAL,
     IADD,
     ISUB,
     IDIV,
