@@ -52,6 +52,16 @@ struct Lexer
         return c >= '0' && c <= '9';
     }
 
+    private static TokenKind getKeyword(string value) {
+        switch (value) {
+            case "fun":    return TokenKind.KFun;
+            case "import": return TokenKind.KImport;
+            default:
+                return TokenKind.ConstID;
+    }
+}
+
+
     Token nextToken()
     {
         while (peek() == ' ' || peek() == '\t' || peek() == '\r')
@@ -68,12 +78,7 @@ struct Lexer
             while (isAlpha(peek()) || isDigit(peek()))
                 advance();
 
-            switch (source[span.offset .. offset])
-            {
-                case "import": kind = TokenKind.KImport; break;
-                case "fun": kind = TokenKind.KFun; break;
-                default: kind = TokenKind.ConstID; break;
-            }
+            kind = getKeyword(source[span.offset .. offset]);
         }
         else if (isDigit(c))
         {
