@@ -1,6 +1,7 @@
 module marsh.token;
 
-enum TokenKind {
+enum TokenKind
+{
     //keywords
     KImport,
     KFun,
@@ -19,7 +20,8 @@ enum TokenKind {
     Eof
 }
 
-struct Span {
+struct Span
+{
     size_t line;
     size_t column;
     size_t offset;
@@ -27,7 +29,8 @@ struct Span {
     string fileName; //later this should be a fileName id or something like that
 }
 
-struct Token {
+struct Token
+{
     TokenKind kind;
     string value;
     Span span;

@@ -1,6 +1,7 @@
 module marsh.vm.opcode;
 
-enum OpCode : ubyte {
+enum OpCode : ubyte
+{
     LOAD_CONST,
     IADD,
     ISUB,
@@ -11,7 +12,8 @@ enum OpCode : ubyte {
     RET
 }
 
-struct Instruction {
+struct Instruction
+{
     OpCode op;
     uint operand = 0;
 }

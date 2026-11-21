@@ -52,15 +52,18 @@ struct Lexer
         return c >= '0' && c <= '9';
     }
 
-    private static TokenKind getKeyword(string value) {
-        switch (value) {
-            case "fun":    return TokenKind.KFun;
-            case "import": return TokenKind.KImport;
-            default:
-                return TokenKind.ConstID;
+    private static TokenKind getKeyword(string value)
+    {
+        switch (value)
+        {
+        case "fun":
+            return TokenKind.KFun;
+        case "import":
+            return TokenKind.KImport;
+        default:
+            return TokenKind.ConstID;
+        }
     }
-}
-
 
     Token nextToken()
     {
@@ -92,7 +95,7 @@ struct Lexer
                 advance();
             if (isAtEnd())
                 throw new Exception(format("%s:%s:%s: unterminated string",
-                    filename, span.line, span.column));
+                        filename, span.line, span.column));
 
             advance();
             kind = TokenKind.ConstString;
@@ -101,15 +104,29 @@ struct Lexer
         {
             switch (c)
             {
-                case '(': kind = TokenKind.LParen; break;
-                case ')': kind = TokenKind.RParen; break;
-                case '{': kind = TokenKind.LBrace; break;
-                case '}': kind = TokenKind.RBrace; break;
-                case ',': kind = TokenKind.Comma; break;
-                case '.': kind = TokenKind.Dot; break;
-                case '\n': kind = TokenKind.NEWLINE; break;
-                default:
-                    throw new Exception(format("%s:%s:%s: unexpected byte 0x%02X",
+            case '(':
+                kind = TokenKind.LParen;
+                break;
+            case ')':
+                kind = TokenKind.RParen;
+                break;
+            case '{':
+                kind = TokenKind.LBrace;
+                break;
+            case '}':
+                kind = TokenKind.RBrace;
+                break;
+            case ',':
+                kind = TokenKind.Comma;
+                break;
+            case '.':
+                kind = TokenKind.Dot;
+                break;
+            case '\n':
+                kind = TokenKind.NEWLINE;
+                break;
+            default:
+                throw new Exception(format("%s:%s:%s: unexpected byte 0x%02X",
                         filename, span.line, span.column, cast(ubyte) c));
             }
         }
