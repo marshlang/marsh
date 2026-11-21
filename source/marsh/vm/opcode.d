@@ -11,6 +11,9 @@ enum OpCode : ubyte
     IMUL,
     HALT,
     CALL,
+    IEQ,
+    JMP,
+    JMP_IF_FALSE,
     RET
 }
 

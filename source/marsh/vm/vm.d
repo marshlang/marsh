@@ -144,6 +144,52 @@ struct VM
                 push(Value(locals[slot]));
                 break;
 
+            case OpCode.IEQ:
+                Value right = pop();
+                Value left = pop();
+
+                if (!left.peek!int || !right.peek!int)
+                {
+                    throw new Exception("IEQ: expected integers");
+                }
+
+                push(Value(left.get!int == right.get!int));
+
+                break;
+
+            case OpCode.JMP:
+                {
+                    if (inst.operand >= chunk.code.length)
+                    {
+                        throw new Exception("JMP: invalid jump target");
+                    }
+
+                    ip = inst.operand;
+                    break;
+                }
+
+            case OpCode.JMP_IF_FALSE:
+                {
+                    Value condition = pop();
+
+                    if (!condition.peek!bool)
+                    {
+                        throw new Exception("JMP_IF_FALSE: expected boolean");
+                    }
+
+                    if (!condition.get!bool)
+                    {
+                        if (inst.operand >= chunk.code.length)
+                        {
+                            throw new Exception("JMP_IF_FALSE: invalid jump target");
+                        }
+
+                        ip = inst.operand;
+                    }
+
+                    break;
+                }
+
             case OpCode.HALT:
                 return;
 

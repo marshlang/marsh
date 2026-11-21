@@ -9,22 +9,37 @@ void main()
 
     Chunk chunk;
 
-    uint a = chunk.addConstant(Value(10));
-    uint b = chunk.addConstant(Value(20));
+    uint x = chunk.addConstant(Value(10));
+    uint ten = chunk.addConstant(Value(10));
+    uint hundred = chunk.addConstant(Value(100));
+    uint eleven = chunk.addConstant(Value(11));
 
-    chunk.emit(OpCode.LOAD_CONST, a);
+    // let x = 11
+    chunk.emit(OpCode.LOAD_CONST, x);
     chunk.emit(OpCode.STORE_LOCAL, 0);
 
-    chunk.emit(OpCode.LOAD_CONST, b);
-    chunk.emit(OpCode.STORE_LOCAL, 1);
-
+    // if (x == 10)
     chunk.emit(OpCode.LOAD_LOCAL, 0);
-    chunk.emit(OpCode.LOAD_LOCAL, 1);
-    chunk.emit(OpCode.IADD);
+    chunk.emit(OpCode.LOAD_CONST, ten);
+    chunk.emit(OpCode.IEQ);
 
-    chunk.emit(OpCode.CALL, 0); //0 -> __builtin_print
+    // Jump to else, if false
+    chunk.emit(OpCode.JMP_IF_FALSE, 9);
+
+    // if body
+    chunk.emit(OpCode.LOAD_CONST, hundred);
+    chunk.emit(OpCode.CALL, 0);
+
+    // Skip else
+    chunk.emit(OpCode.JMP, 11);
+
+    // else body
+    chunk.emit(OpCode.LOAD_CONST, eleven);
+    chunk.emit(OpCode.CALL, 0);
+
     chunk.emit(OpCode.HALT);
 
     auto vm = VM(chunk, createBuiltins());
     vm.run();
+
 }
